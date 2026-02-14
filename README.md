@@ -67,15 +67,147 @@ This enables scalable cross-condition and cross-animal comparisons.
 ## Getting Started
 
 1. Clone the repository:
-git clone https://github.com/aizanygman/SdoAnalysisToolkit.git
+   git clone https://github.com/aizanygman/SdoAnalysisToolkit.git
 
 
-2. Add the folder to your MATLAB path:
-addpath(genpath('path/to/SdoAnalysisToolkit'));
+3. Add the folder to your MATLAB path:
+    addpath(genpath('path/to/SdoAnalysisToolkit'));
 
-3. Load your data (example):
-load('spikeTimeCell.mat');
-load('emgCell.mat');
+4. Load your data (example):
+    load('spikeTimeCell.mat');
+    load('emgCell.mat');
 
-4. Run analysis:
-sdo_testing
+5. Run analysis:
+    sdo_testing
+
+
+This structure supports systematic comparisons across:
+
+- Temporal parameter configurations  
+- Neurons and muscles  
+- Experimental conditions  
+- Animals  
+
+---
+## Data Requirements
+
+The analysis expects:
+
+- xtData: Continuous signals (e.g., EMG envelope)
+- ppData: Spike timestamp data
+
+Data can be loaded from .mat files and structured into xtDataCell and ppDataCell objects before analysis.
+
+---
+# Example Workflow
+    % Load data
+    load('xtData.mat');
+    load('ppData.mat');
+
+    % Run analysis
+    sdo_testing
+
+The script performs:
+- Parameter sweep over temporal shifts and durations
+- SDO computation per condition
+- Background normalization
+- Bootstrap resampling
+- Hierarchical result storage
+
+---
+# Output Structure
+
+Results are stored in a hierarchical struct:
+
+    frogStruct(f)
+        .neurons(n)
+            .muscles(m)
+                .sdos(k)
+                    .matrix
+                    .background
+                    .bootstrap
+                    .peakValue
+                    .isSignificant
+                    .shift
+                    .dura
+
+
+This design enables scalable comparisons across:
+- Temporal windows
+- Neurons
+- Muscles
+- Experimental conditions
+
+---
+## Statistical Validation
+
+Spike-specific effects are isolated using:
+
+- Background transition modeling  
+- Bootstrap resampling (≥100 iterations per condition)  
+- Peak magnitude and variance-based thresholds  
+
+These procedures reduce bias from baseline motor variability and ensure statistical robustness.
+
+---
+
+## Interpretation of SDO Matrices
+
+High-intensity regions in an SDO matrix indicate spike-driven increases in transition probability between discrete motor states.
+
+By analyzing:
+
+- Peak transition magnitude  
+- Distribution of significant transitions  
+- Changes in transition structure  
+
+we interpret neural control through a dynamical systems framework, where spikes reshape the underlying motor energy landscape.
+
+---
+
+## Reproducibility
+
+All analyses are reproducible through:
+
+- Parameterized temporal sweeps  
+- Structured hierarchical result storage  
+- Deterministic preprocessing and discretization  
+
+The modular design allows extension to new datasets or experimental conditions with minimal modification.
+
+---
+
+## Research Applications
+
+This toolkit supports research in:
+
+- Computational neuroscience  
+- Motor control modeling  
+- Event-driven state-space analysis  
+- Transition probability modeling  
+- Neural-motor coupling studies  
+
+---
+
+## Technical Concepts
+
+- Markov transition modeling  
+- Bootstrap resampling  
+- High-dimensional transition matrices  
+- State-space discretization  
+- Object-oriented MATLAB design  
+- Hierarchical data structures  
+
+---
+
+## Author
+
+Aiza Nygman  
+Undergraduate Researcher – Computational Neuroscience  
+Drexel University  
+
+---
+
+## Citation
+
+If you use this repository in academic work, please provide appropriate attribution.
